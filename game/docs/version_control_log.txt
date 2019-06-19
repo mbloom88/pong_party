@@ -1,0 +1,43 @@
+################################################################################
+# PONG PARTY
+# VERSION CHANGE LOG
+################################################################################
+
+################################################################################
+# v0.2.0
+################################################################################
+
+[CONTROLS]
+
+() 	Removed left analog joystick functionality from paddle movement to limit
+	movement functions to primary and secondary inputs.
+
+[GRAPHICS]
+
+() 	Updated the .ico file for more iconography options.
+
+[MENUS]
+
+()	Added Pause menu functionality when a level is in play. The following are
+	additional functions that were added along with the Pause menu.
+	
+	--	Can now reset the pong ball within the level if the pong ball enters
+		an undesired state or is stuck.
+
+	--	Can now access the Main and Settings menu while in-game.
+
+	--	Can exit the game during a match.
+
+()	Added a Timer object to the GameHandler to provide debounce for Pause 
+	menu triggering.
+
+()	Improved the menu removal mechanics so that they are not dependent on 
+	get_tree().create_timer() timing.
+
+() Added keybind support to the Settings menu under the Controls section.
+
+################################################################################
+# v0.1.0
+################################################################################
+
+Initial release.

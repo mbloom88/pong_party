@@ -1,0 +1,92 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://menus/splash/themes/splash.tres" type="Theme" id=1]
+[ext_resource path="res://menus/splash/scripts/splash.gd" type="Script" id=2]
+[ext_resource path="res://menus/splash/state_scripts/idle.gd" type="Script" id=3]
+[ext_resource path="res://menus/splash/state_scripts/process.gd" type="Script" id=4]
+[ext_resource path="res://menus/splash/state_scripts/exit.gd" type="Script" id=5]
+[ext_resource path="res://menus/splash/animations/SETUP-company.tres" type="Animation" id=6]
+[ext_resource path="res://menus/splash/animations/SETUP-godot.tres" type="Animation" id=7]
+[ext_resource path="res://menus/splash/animations/splash-sequence.tres" type="Animation" id=8]
+[ext_resource path="res://menus/splash/gfx/godot-logo.png" type="Texture" id=9]
+[ext_resource path="res://menus/splash/gfx/company-logo.jpg" type="Texture" id=10]
+
+[node name="Splash" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource( 3 )
+
+[node name="Process" type="Node" parent="States"]
+script = ExtResource( 4 )
+
+[node name="Exit" type="Node" parent="States"]
+script = ExtResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/SETUP-company = ExtResource( 6 )
+anims/SETUP-godot = ExtResource( 7 )
+anims/splash-sequence = ExtResource( 8 )
+
+[node name="GodotContainer" type="VBoxContainer" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.0
+margin_top = -119.5
+margin_right = 250.0
+margin_bottom = 119.5
+
+[node name="Label" type="Label" parent="GodotContainer"]
+margin_right = 500.0
+margin_bottom = 33.0
+text = "Powered By"
+align = 1
+
+[node name="GodotLogo" type="NinePatchRect" parent="GodotContainer"]
+margin_top = 37.0
+margin_right = 500.0
+margin_bottom = 237.0
+rect_min_size = Vector2( 500, 200 )
+texture = ExtResource( 9 )
+
+[node name="CompanyContainer" type="VBoxContainer" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.0
+margin_top = -189.0
+margin_right = 250.0
+margin_bottom = 189.0
+
+[node name="Label" type="Label" parent="CompanyContainer"]
+margin_right = 500.0
+margin_bottom = 33.0
+text = "TBD"
+align = 1
+
+[node name="CompanyLogo" type="NinePatchRect" parent="CompanyContainer"]
+margin_top = 37.0
+margin_right = 500.0
+margin_bottom = 337.0
+rect_min_size = Vector2( 500, 300 )
+texture = ExtResource( 10 )
+
+[node name="Label2" type="Label" parent="CompanyContainer"]
+margin_top = 341.0
+margin_right = 500.0
+margin_bottom = 374.0
+text = "Games"
+align = 1
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

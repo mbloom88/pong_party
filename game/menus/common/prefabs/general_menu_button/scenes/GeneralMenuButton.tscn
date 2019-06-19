@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://menus/common/themes/menu-buttons.tres" type="Theme" id=1]
+[ext_resource path="res://menus/common/prefabs/general_menu_button/scripts/general-menu-button.gd" type="Script" id=2]
+[ext_resource path="res://menus/common/prefabs/general_menu_button/animations/SETUP.tres" type="Animation" id=3]
+[ext_resource path="res://menus/common/prefabs/general_menu_button/animations/idle.tres" type="Animation" id=4]
+[ext_resource path="res://menus/common/prefabs/general_menu_button/animations/pulse.tres" type="Animation" id=5]
+
+[node name="GeneralMenuButton" type="Button"]
+margin_right = 100.0
+margin_bottom = 25.0
+rect_pivot_offset = Vector2( 50, 12.5 )
+theme = ExtResource( 1 )
+text = "Button"
+script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/SETUP = ExtResource( 3 )
+anims/idle = ExtResource( 4 )
+anims/pulse = ExtResource( 5 )
+

@@ -1,0 +1,644 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://menus/settings/scripts/settings.gd" type="Script" id=1]
+[ext_resource path="res://menus/settings/state_scripts/idle.gd" type="Script" id=2]
+[ext_resource path="res://menus/settings/state_scripts/process.gd" type="Script" id=3]
+[ext_resource path="res://menus/settings/state_scripts/exit.gd" type="Script" id=4]
+[ext_resource path="res://menus/common/animations/SETUP.tres" type="Animation" id=5]
+[ext_resource path="res://menus/common/animations/slide-in.tres" type="Animation" id=6]
+[ext_resource path="res://menus/common/animations/slide-out.tres" type="Animation" id=7]
+[ext_resource path="res://menus/common/themes/menu-primary.tres" type="Theme" id=8]
+[ext_resource path="res://menus/common/spritesheets/kenney_nl/greySheet.png" type="Texture" id=9]
+[ext_resource path="res://menus/common/themes/menu-buttons.tres" type="Theme" id=10]
+[ext_resource path="res://menus/settings/scripts/main-buttons.gd" type="Script" id=11]
+[ext_resource path="res://menus/common/prefabs/general_menu_button/scenes/GeneralMenuButton.tscn" type="PackedScene" id=12]
+[ext_resource path="res://menus/common/themes/menu-secondary.tres" type="Theme" id=13]
+[ext_resource path="res://menus/settings/scripts/master-volume.gd" type="Script" id=14]
+[ext_resource path="res://menus/settings/scripts/display-resolution.gd" type="Script" id=15]
+[ext_resource path="res://menus/settings/scripts/fullscreen-mode.gd" type="Script" id=16]
+[ext_resource path="res://menus/settings/scripts/borderless-window.gd" type="Script" id=17]
+[ext_resource path="res://menus/settings/scripts/controls-settings.gd" type="Script" id=18]
+[ext_resource path="res://menus/settings/scripts/control-keys.gd" type="Script" id=19]
+[ext_resource path="res://menus/keybind_popup/scenes/KeybindPopup.tscn" type="PackedScene" id=20]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 191, 100, 99, 98 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 0, 0, 193.75, 48.6973 )
+
+[node name="Settings" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource( 2 )
+
+[node name="Process" type="Node" parent="States"]
+script = ExtResource( 3 )
+
+[node name="Exit" type="Node" parent="States"]
+script = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/SETUP = ExtResource( 5 )
+anims/slide-in = ExtResource( 6 )
+anims/slide-out = ExtResource( 7 )
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 50.0
+margin_top = 50.0
+margin_right = -50.0
+margin_bottom = -50.0
+theme = ExtResource( 8 )
+texture = SubResource( 1 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="Settings" type="Label" parent="NinePatchRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -185.5
+margin_top = -290.0
+margin_right = 185.5
+margin_bottom = -236.0
+text = "Settings"
+align = 1
+
+[node name="MainButtonPanel" type="NinePatchRect" parent="NinePatchRect"]
+margin_left = 50.0
+margin_top = 100.0
+margin_right = 300.0
+margin_bottom = 610.0
+rect_min_size = Vector2( 250, 0 )
+texture = SubResource( 2 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MainButtons" type="VBoxContainer" parent="NinePatchRect/MainButtonPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+theme = ExtResource( 10 )
+script = ExtResource( 11 )
+
+[node name="Sound" parent="NinePatchRect/MainButtonPanel/MainButtons" groups=[
+"settings_buttons",
+] instance=ExtResource( 12 )]
+margin_left = 15.0
+margin_right = 215.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+rect_pivot_offset = Vector2( 100, 25 )
+size_flags_horizontal = 4
+text = "Sound"
+
+[node name="Display" parent="NinePatchRect/MainButtonPanel/MainButtons" groups=[
+"settings_buttons",
+] instance=ExtResource( 12 )]
+margin_left = 15.0
+margin_top = 54.0
+margin_right = 215.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 200, 50 )
+rect_pivot_offset = Vector2( 100, 25 )
+size_flags_horizontal = 4
+text = "Display"
+
+[node name="Controls" parent="NinePatchRect/MainButtonPanel/MainButtons" groups=[
+"settings_buttons",
+] instance=ExtResource( 12 )]
+margin_left = 15.0
+margin_top = 108.0
+margin_right = 215.0
+margin_bottom = 158.0
+rect_min_size = Vector2( 200, 50 )
+rect_pivot_offset = Vector2( 100, 25 )
+size_flags_horizontal = 4
+text = "Controls"
+
+[node name="SaveSettings" parent="NinePatchRect/MainButtonPanel/MainButtons" groups=[
+"settings_buttons",
+] instance=ExtResource( 12 )]
+modulate = Color( 0.764706, 0.890196, 1, 1 )
+margin_left = 15.0
+margin_top = 162.0
+margin_right = 215.0
+margin_bottom = 212.0
+rect_min_size = Vector2( 200, 50 )
+rect_pivot_offset = Vector2( 100, 25 )
+size_flags_horizontal = 4
+text = "Save Settings"
+
+[node name="DefaultSettings" parent="NinePatchRect/MainButtonPanel/MainButtons" groups=[
+"settings_buttons",
+] instance=ExtResource( 12 )]
+modulate = Color( 0.764706, 0.890196, 1, 1 )
+margin_left = 15.0
+margin_top = 216.0
+margin_right = 215.0
+margin_bottom = 266.0
+rect_min_size = Vector2( 200, 50 )
+rect_pivot_offset = Vector2( 100, 25 )
+size_flags_horizontal = 4
+text = "Default Settings"
+
+[node name="Back" parent="NinePatchRect/MainButtonPanel/MainButtons" groups=[
+"settings_buttons",
+] instance=ExtResource( 12 )]
+modulate = Color( 0.764706, 0.890196, 1, 1 )
+margin_left = 15.0
+margin_top = 270.0
+margin_right = 215.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 200, 50 )
+rect_pivot_offset = Vector2( 100, 25 )
+size_flags_horizontal = 4
+text = "Back (ESC)"
+
+[node name="SecondaryPanels" type="Control" parent="NinePatchRect"]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 10 )
+
+[node name="SoundSettings" type="NinePatchRect" parent="NinePatchRect/SecondaryPanels"]
+editor/display_folded = true
+visible = false
+margin_left = 304.0
+margin_top = 100.0
+margin_right = 1130.0
+margin_bottom = 610.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 3
+theme = ExtResource( 13 )
+texture = SubResource( 2 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/SecondaryPanels/SoundSettings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/SoundSettings/VBoxContainer"]
+margin_right = 806.0
+margin_bottom = 33.0
+theme = ExtResource( 10 )
+custom_constants/separation = 100
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/SoundSettings/VBoxContainer/HBoxContainer"]
+margin_right = 227.0
+margin_bottom = 33.0
+text = "Master Volume"
+
+[node name="MasterVolume" type="HSlider" parent="NinePatchRect/SecondaryPanels/SoundSettings/VBoxContainer/HBoxContainer" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 327.0
+margin_right = 527.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_vertical = 1
+min_value = -20.0
+max_value = 8.0
+step = 0.5
+ticks_on_borders = true
+script = ExtResource( 14 )
+
+[node name="DisplaySettings" type="NinePatchRect" parent="NinePatchRect/SecondaryPanels"]
+margin_left = 304.0
+margin_top = 100.0
+margin_right = 1130.0
+margin_bottom = 610.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 3
+theme = ExtResource( 13 )
+texture = SubResource( 2 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="NinePatchRect/SecondaryPanels/DisplaySettings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer"]
+margin_right = 601.0
+margin_bottom = 152.0
+custom_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer"]
+margin_right = 601.0
+margin_bottom = 50.0
+theme = ExtResource( 10 )
+custom_constants/separation = 100
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer"]
+margin_top = 8.0
+margin_right = 301.0
+margin_bottom = 41.0
+text = "Display Resolution"
+
+[node name="DisplayResolution" type="OptionButton" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 401.0
+margin_right = 601.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+text = "1280 x 720"
+align = 1
+items = [ "1280 x 720", null, false, 0, null, "1920 x 1080", null, false, 1, null, "2560 x 1440", null, false, 2, null ]
+selected = 0
+script = ExtResource( 15 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer"]
+margin_top = 65.0
+margin_right = 601.0
+margin_bottom = 101.0
+theme = ExtResource( 10 )
+custom_constants/separation = 240
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer2"]
+margin_top = 1.0
+margin_right = 253.0
+margin_bottom = 34.0
+text = "Fullscreen Mode"
+
+[node name="FullscreenMode" type="CheckButton" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer2" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 493.0
+margin_right = 529.0
+margin_bottom = 36.0
+size_flags_vertical = 4
+script = ExtResource( 16 )
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer"]
+margin_top = 116.0
+margin_right = 601.0
+margin_bottom = 152.0
+custom_constants/separation = 190
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer3"]
+margin_top = 1.0
+margin_right = 301.0
+margin_bottom = 34.0
+text = "Borderless Window"
+
+[node name="BorderlessWindow" type="CheckButton" parent="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer3" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 491.0
+margin_right = 527.0
+margin_bottom = 36.0
+size_flags_vertical = 4
+script = ExtResource( 17 )
+
+[node name="ControlsSettings" type="NinePatchRect" parent="NinePatchRect/SecondaryPanels"]
+visible = false
+margin_left = 304.0
+margin_top = 100.0
+margin_right = 1130.0
+margin_bottom = 610.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 3
+theme = ExtResource( 13 )
+texture = SubResource( 2 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+script = ExtResource( 18 )
+max_scroll = 81
+
+[node name="ScrollContainer" type="ScrollContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer"]
+margin_right = 806.0
+margin_bottom = 559.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 20
+
+[node name="Player1PaddleControls" type="CenterContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer"]
+margin_right = 794.0
+margin_bottom = 33.0
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1PaddleControls"]
+margin_left = 191.0
+margin_right = 603.0
+margin_bottom = 33.0
+text = "Player 1 Paddle Controls"
+
+[node name="Player1MoveUp" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer"]
+margin_top = 53.0
+margin_right = 794.0
+margin_bottom = 103.0
+custom_constants/separation = 50
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveUp"]
+margin_top = 8.0
+margin_right = 128.0
+margin_bottom = 41.0
+text = "Move Up"
+
+[node name="Key" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveUp" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 178.0
+margin_right = 378.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+text = "Key"
+script = ExtResource( 19 )
+action = "player1_move_up"
+
+[node name="JoypadButton" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveUp"]
+margin_left = 428.0
+margin_right = 628.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+focus_mode = 0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+disabled = true
+enabled_focus_mode = 0
+text = "D-Pad Up"
+
+[node name="Player1MoveDown" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer"]
+margin_top = 123.0
+margin_right = 794.0
+margin_bottom = 173.0
+custom_constants/separation = 50
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveDown"]
+margin_top = 8.0
+margin_right = 165.0
+margin_bottom = 41.0
+text = "Move Down"
+
+[node name="Key" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveDown" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 215.0
+margin_right = 415.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+text = "Key"
+script = ExtResource( 19 )
+action = "player1_move_down"
+
+[node name="JoypadButton" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveDown"]
+margin_left = 465.0
+margin_right = 665.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+focus_mode = 0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+disabled = true
+enabled_focus_mode = 0
+text = "D-Pad Down"
+
+[node name="Player2PaddleControls" type="CenterContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer"]
+margin_top = 193.0
+margin_right = 794.0
+margin_bottom = 226.0
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2PaddleControls"]
+margin_left = 191.0
+margin_right = 603.0
+margin_bottom = 33.0
+text = "Player 2 Paddle Controls"
+
+[node name="Player2MoveUp" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer"]
+margin_top = 246.0
+margin_right = 794.0
+margin_bottom = 296.0
+custom_constants/separation = 50
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveUp"]
+margin_top = 8.0
+margin_right = 128.0
+margin_bottom = 41.0
+text = "Move Up"
+
+[node name="Key" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveUp" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 178.0
+margin_right = 378.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+text = "Key"
+script = ExtResource( 19 )
+action = "player2_move_up"
+
+[node name="JoypadButton" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveUp"]
+margin_left = 428.0
+margin_right = 628.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+focus_mode = 0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+disabled = true
+enabled_focus_mode = 0
+text = "D-Pad Up"
+
+[node name="Player2MoveDown" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer"]
+margin_top = 316.0
+margin_right = 794.0
+margin_bottom = 366.0
+custom_constants/separation = 50
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveDown"]
+margin_top = 8.0
+margin_right = 165.0
+margin_bottom = 41.0
+text = "Move Down"
+
+[node name="Key" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveDown" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 215.0
+margin_right = 415.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+text = "Key"
+script = ExtResource( 19 )
+action = "player2_move_down"
+
+[node name="JoypadButton" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveDown"]
+margin_left = 465.0
+margin_right = 665.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+focus_mode = 0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+disabled = true
+enabled_focus_mode = 0
+text = "D-Pad Down"
+
+[node name="Menu Controls" type="CenterContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer"]
+margin_top = 386.0
+margin_right = 794.0
+margin_bottom = 419.0
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Menu Controls"]
+margin_left = 288.0
+margin_right = 506.0
+margin_bottom = 33.0
+text = "Menu Controls"
+
+[node name="Accept" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer"]
+margin_top = 439.0
+margin_right = 794.0
+margin_bottom = 489.0
+custom_constants/separation = 50
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Accept"]
+margin_top = 8.0
+margin_right = 114.0
+margin_bottom = 41.0
+text = "Accept"
+
+[node name="Key" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Accept" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 164.0
+margin_right = 364.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+text = "Key"
+script = ExtResource( 19 )
+action = "ui_accept"
+
+[node name="JoypadButton" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Accept"]
+margin_left = 414.0
+margin_right = 614.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+focus_mode = 0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+disabled = true
+enabled_focus_mode = 0
+text = "Button A"
+
+[node name="Cancel" type="HBoxContainer" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer"]
+margin_top = 509.0
+margin_right = 794.0
+margin_bottom = 559.0
+custom_constants/separation = 50
+
+[node name="Label" type="Label" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Cancel"]
+margin_top = 8.0
+margin_right = 105.0
+margin_bottom = 41.0
+text = "Cancel"
+
+[node name="Key" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Cancel" groups=[
+"settings",
+"settings_buttons",
+]]
+margin_left = 155.0
+margin_right = 355.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+text = "Key"
+script = ExtResource( 19 )
+action = "ui_cancel"
+
+[node name="JoypadButton" type="Button" parent="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Cancel"]
+margin_left = 405.0
+margin_right = 605.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+focus_mode = 0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+disabled = true
+enabled_focus_mode = 0
+text = "Button B"
+
+[node name="KeybindPopup" parent="." instance=ExtResource( 20 )]
+visible = false
+
+[connection signal="pressed" from="NinePatchRect/MainButtonPanel/MainButtons/Sound" to="NinePatchRect/MainButtonPanel/MainButtons" method="_on_Sound_pressed"]
+[connection signal="pressed" from="NinePatchRect/MainButtonPanel/MainButtons/Sound" to="." method="_on_Sound_pressed"]
+[connection signal="pressed" from="NinePatchRect/MainButtonPanel/MainButtons/Display" to="NinePatchRect/MainButtonPanel/MainButtons" method="_on_Display_pressed"]
+[connection signal="pressed" from="NinePatchRect/MainButtonPanel/MainButtons/Display" to="." method="_on_Display_pressed"]
+[connection signal="pressed" from="NinePatchRect/MainButtonPanel/MainButtons/Controls" to="NinePatchRect/MainButtonPanel/MainButtons" method="_on_Controls_pressed"]
+[connection signal="pressed" from="NinePatchRect/MainButtonPanel/MainButtons/Controls" to="." method="_on_Controls_pressed"]
+[connection signal="pressed" from="NinePatchRect/MainButtonPanel/MainButtons/SaveSettings" to="." method="_on_SaveSettings_pressed"]
+[connection signal="pressed" from="NinePatchRect/MainButtonPanel/MainButtons/DefaultSettings" to="." method="_on_DefaultSettings_pressed"]
+[connection signal="pressed" from="NinePatchRect/MainButtonPanel/MainButtons/Back" to="." method="_on_Back_pressed"]
+[connection signal="value_changed" from="NinePatchRect/SecondaryPanels/SoundSettings/VBoxContainer/HBoxContainer/MasterVolume" to="NinePatchRect/SecondaryPanels/SoundSettings/VBoxContainer/HBoxContainer/MasterVolume" method="_on_HSlider_value_changed"]
+[connection signal="item_selected" from="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer/DisplayResolution" to="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer/DisplayResolution" method="_on_OptionButton_item_selected"]
+[connection signal="toggled" from="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer2/FullscreenMode" to="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer2/FullscreenMode" method="_on_FullscreenMode_toggled"]
+[connection signal="toggled" from="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer3/BorderlessWindow" to="NinePatchRect/SecondaryPanels/DisplaySettings/ScrollContainer/VBoxContainer/HBoxContainer3/BorderlessWindow" method="_on_BorderlessWindow_toggled"]
+[connection signal="focus_entered" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveUp/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveUp/Key" method="_on_Key_focus_entered"]
+[connection signal="pressed" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveUp/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveUp/Key" method="_on_Key_pressed"]
+[connection signal="request_keybind_popup" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveUp/Key" to="." method="_on_Keybind_request_keybind_popup"]
+[connection signal="scroll_window" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveUp/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings" method="_on_Key_scroll_window"]
+[connection signal="focus_entered" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveDown/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveDown/Key" method="_on_Key_focus_entered"]
+[connection signal="pressed" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveDown/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveDown/Key" method="_on_Button_pressed"]
+[connection signal="request_keybind_popup" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveDown/Key" to="." method="_on_Keybind_request_keybind_popup"]
+[connection signal="scroll_window" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player1MoveDown/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings" method="_on_Key_scroll_window"]
+[connection signal="focus_entered" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveUp/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveUp/Key" method="_on_Key_focus_entered"]
+[connection signal="pressed" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveUp/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveUp/Key" method="_on_Button_pressed"]
+[connection signal="request_keybind_popup" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveUp/Key" to="." method="_on_Keybind_request_keybind_popup"]
+[connection signal="scroll_window" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveUp/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings" method="_on_Key_scroll_window"]
+[connection signal="focus_entered" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveDown/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveDown/Key" method="_on_Key_focus_entered"]
+[connection signal="pressed" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveDown/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveDown/Key" method="_on_Button_pressed"]
+[connection signal="request_keybind_popup" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveDown/Key" to="." method="_on_Keybind_request_keybind_popup"]
+[connection signal="scroll_window" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Player2MoveDown/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings" method="_on_Key_scroll_window"]
+[connection signal="focus_entered" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Accept/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Accept/Key" method="_on_Key_focus_entered"]
+[connection signal="pressed" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Accept/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Accept/Key" method="_on_Button_pressed"]
+[connection signal="request_keybind_popup" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Accept/Key" to="." method="_on_Keybind_request_keybind_popup"]
+[connection signal="scroll_window" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Accept/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings" method="_on_Key_scroll_window"]
+[connection signal="focus_entered" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Cancel/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Cancel/Key" method="_on_Key_focus_entered"]
+[connection signal="pressed" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Cancel/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Cancel/Key" method="_on_Button_pressed"]
+[connection signal="request_keybind_popup" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Cancel/Key" to="." method="_on_Keybind_request_keybind_popup"]
+[connection signal="scroll_window" from="NinePatchRect/SecondaryPanels/ControlsSettings/ScrollContainer/VBoxContainer/Cancel/Key" to="NinePatchRect/SecondaryPanels/ControlsSettings" method="_on_Key_scroll_window"]
+[connection signal="new_keybind" from="KeybindPopup" to="." method="_on_KeybindPopup_new_keybind"]

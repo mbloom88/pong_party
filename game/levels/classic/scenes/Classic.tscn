@@ -1,0 +1,95 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://levels/common/scenes/Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://levels/classic/scripts/classic.gd" type="Script" id=2]
+[ext_resource path="res://levels/classic/themes/classic.tres" type="Theme" id=3]
+[ext_resource path="res://levels/classic/scripts/midline.gd" type="Script" id=4]
+[ext_resource path="res://levels/classic/scenes/Boundary.tscn" type="PackedScene" id=5]
+
+
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 360 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 360 )
+
+[node name="Classic" index="0" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+player1_paddle_gfx = "res://actors/paddles/classic/scenes/Classic.tscn"
+player2_paddle_gfx = "res://actors/paddles/classic/scenes/Classic.tscn"
+npc_paddle_gfx = "res://actors/paddles/classic/scenes/ClassicNPC.tscn"
+ball_gfx = "res://actors/pong_balls/classic/scenes/Classic.tscn"
+bgm = "res://common_assets/music/eric_skiff/We're the Resistors/07 We're the Resistors.ogg"
+
+[node name="SFX" parent="." index="0"]
+_goal_sound = "res://levels/common/sfx/level_goal/zap1.ogg"
+
+[node name="Background" parent="." index="1"]
+editor/display_folded = true
+
+[node name="Black" type="ColorRect" parent="Background" index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Debug" parent="." index="2"]
+editor/display_folded = true
+
+[node name="BackDisplays" parent="." index="3"]
+theme = ExtResource( 3 )
+
+[node name="Player1Score" parent="BackDisplays" index="0"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -210.0
+margin_top = -360.0
+margin_right = -100.0
+margin_bottom = -157.0
+grow_horizontal = 0
+
+[node name="Player2Score" parent="BackDisplays" index="1"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 100.0
+margin_top = -360.0
+margin_right = 210.0
+margin_bottom = -157.0
+
+[node name="Midline" type="Control" parent="BackDisplays" index="2"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 4 )
+
+[node name="Boundary" parent="Walls" index="0" instance=ExtResource( 5 )]
+
+[node name="Boundary2" parent="Walls" index="1" instance=ExtResource( 5 )]
+position = Vector2( 0, 710 )
+
+[node name="Goal1" type="Area2D" parent="Goals" index="0"]
+position = Vector2( 0, 360 )
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goals/Goal1" index="0"]
+visible = false
+shape = SubResource( 1 )
+
+[node name="Goal2" type="Area2D" parent="Goals" index="1"]
+position = Vector2( 1280, 360 )
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goals/Goal2" index="0"]
+visible = false
+shape = SubResource( 2 )
+
+[node name="StartingLocations" parent="." index="7"]
+editor/display_folded = true
+
+[connection signal="body_entered" from="Goals/Goal1" to="." method="_on_Goal1_body_entered"]
+[connection signal="body_entered" from="Goals/Goal2" to="." method="_on_Goal2_body_entered"]

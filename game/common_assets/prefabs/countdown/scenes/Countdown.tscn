@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://common_assets/prefabs/countdown/themes/countdown.tres" type="Theme" id=1]
+[ext_resource path="res://common_assets/prefabs/countdown/scripts/count-down.gd" type="Script" id=2]
+[ext_resource path="res://common_assets/prefabs/countdown/animations/countdown.tres" type="Animation" id=3]
+
+[node name="Countdown" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/countdown = ExtResource( 3 )
+
+[node name="Number" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -255.904
+margin_top = -320.0
+margin_right = 148.096
+margin_bottom = 322.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 250, 330 )
+size_flags_horizontal = 4
+text = "3"
+align = 1
+valign = 1
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

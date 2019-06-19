@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://game_handler/scripts/game-handler.gd" type="Script" id=1]
+[ext_resource path="res://game_handler/scripts/bgm.gd" type="Script" id=2]
+[ext_resource path="res://game_handler/scripts/level-coordinator.gd" type="Script" id=3]
+[ext_resource path="res://game_handler/scripts/menu-coordinator.gd" type="Script" id=4]
+
+[node name="GameHandler" type="Node"]
+pause_mode = 2
+script = ExtResource( 1 )
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+bus = "BGM"
+script = ExtResource( 2 )
+
+[node name="LevelCoordinator" type="Node" parent="."]
+pause_mode = 1
+script = ExtResource( 3 )
+
+[node name="MenuCoordinator" type="Node" parent="."]
+script = ExtResource( 4 )
+level_selection = "res://menus/level_selection/scenes/LevelSelection.tscn"
+main = "res://menus/main/scenes/MainMenu.tscn"
+pause = "res://menus/pause/scenes/Pause.tscn"
+settings = "res://menus/settings/scenes/Settings.tscn"
+splash = "res://menus/splash/scenes/Splash.tscn"
+victory = "res://menus/victory/scenes/Victory.tscn"
+
+[node name="PauseTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="play_bgm" from="LevelCoordinator" to="." method="_on_play_bgm"]
+[connection signal="rematch" from="LevelCoordinator" to="." method="_on_LevelCoordinator_rematch"]
+[connection signal="request_victory_menu" from="LevelCoordinator" to="." method="_on_LevelCoordinator_request_victory_menu"]
+[connection signal="victory_achieved" from="LevelCoordinator" to="." method="_on_LevelCoordinator_victory_achieved"]
+[connection signal="level_selected" from="MenuCoordinator" to="." method="_on_MenuCoordinator_level_selected"]
+[connection signal="menu_exited" from="MenuCoordinator" to="." method="_on_MenuCoordinator_menu_exited"]
+[connection signal="play_bgm" from="MenuCoordinator" to="." method="_on_play_bgm"]
+[connection signal="rematch" from="MenuCoordinator" to="." method="_on_MenuCoordinator_rematch"]
+[connection signal="remove_current_level" from="MenuCoordinator" to="." method="_on_MenuCoordinator_remove_current_level"]
+[connection signal="reset_pong_ball_requested" from="MenuCoordinator" to="." method="_on_MenuCoordinator_reset_pong_ball_requested"]
+[connection signal="timeout" from="PauseTimer" to="." method="_on_PauseTimer_timeout"]

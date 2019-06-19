@@ -1,0 +1,386 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://menus/common/themes/menu-primary.tres" type="Theme" id=1]
+[ext_resource path="res://menus/level_selection/scripts/level-selection.gd" type="Script" id=2]
+[ext_resource path="res://menus/level_selection/state_scripts/idle.gd" type="Script" id=3]
+[ext_resource path="res://menus/level_selection/state_scripts/process.gd" type="Script" id=4]
+[ext_resource path="res://menus/settings/state_scripts/exit.gd" type="Script" id=5]
+[ext_resource path="res://menus/common/animations/SETUP.tres" type="Animation" id=6]
+[ext_resource path="res://menus/common/animations/slide-in.tres" type="Animation" id=7]
+[ext_resource path="res://menus/common/animations/slide-out.tres" type="Animation" id=8]
+[ext_resource path="res://menus/common/spritesheets/kenney_nl/greySheet.png" type="Texture" id=9]
+[ext_resource path="res://menus/common/themes/menu-secondary.tres" type="Theme" id=10]
+[ext_resource path="res://menus/common/themes/menu-buttons.tres" type="Theme" id=11]
+[ext_resource path="res://menus/level_selection/scripts/level-buttons.gd" type="Script" id=12]
+[ext_resource path="res://menus/common/prefabs/general_menu_button/scenes/GeneralMenuButton.tscn" type="PackedScene" id=13]
+[ext_resource path="res://menus/level_selection/scripts/player-buttons.gd" type="Script" id=14]
+[ext_resource path="res://menus/level_selection/scripts/ai-difficulty-buttons.gd" type="Script" id=15]
+[ext_resource path="res://menus/level_selection/scripts/goals.gd" type="Script" id=16]
+[ext_resource path="res://menus/level_selection/scripts/final-buttons.gd" type="Script" id=17]
+[ext_resource path="res://menus/level_selection/scripts/level-preview.gd" type="Script" id=18]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 191, 100, 99, 98 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 190, 98, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 190, 98, 100, 100 )
+
+[node name="LevelSelection" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+level_descriptions_file = "res://menus/level_selection/json/level_descriptions.json"
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource( 3 )
+
+[node name="Process" type="Node" parent="States"]
+script = ExtResource( 4 )
+
+[node name="Exit" type="Node" parent="States"]
+script = ExtResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/SETUP = ExtResource( 6 )
+anims/slide-in = ExtResource( 7 )
+anims/slide-out = ExtResource( 8 )
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 50.0
+margin_top = 50.0
+margin_right = -50.0
+margin_bottom = -50.0
+texture = SubResource( 1 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="LevelSelection" type="Label" parent="NinePatchRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -185.5
+margin_top = -290.0
+margin_right = 185.5
+margin_bottom = -236.0
+text = "Level Selection"
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 100.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="ButtonPanel" type="NinePatchRect" parent="NinePatchRect/HBoxContainer"]
+margin_right = 578.0
+margin_bottom = 510.0
+size_flags_horizontal = 3
+theme = ExtResource( 10 )
+texture = SubResource( 2 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel"]
+margin_left = 4.0
+margin_right = 580.0
+margin_bottom = 510.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 15
+
+[node name="Header" type="CenterContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer"]
+editor/display_folded = true
+margin_right = 576.0
+margin_bottom = 33.0
+
+[node name="Level" type="Label" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Header"]
+margin_left = 251.0
+margin_right = 324.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+text = "Level"
+align = 1
+
+[node name="LevelButtons" type="GridContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer" groups=[
+"buttons",
+]]
+margin_left = 213.0
+margin_top = 48.0
+margin_right = 363.0
+margin_bottom = 98.0
+size_flags_horizontal = 4
+size_flags_vertical = 5
+theme = ExtResource( 11 )
+columns = 3
+script = ExtResource( 12 )
+classic_level = "res://levels/classic/scenes/Classic.tscn"
+classic_level_video = "res://menus/level_selection/gfx/classic-preview.ogv"
+
+[node name="Classic" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/LevelButtons" instance=ExtResource( 13 )]
+margin_right = 150.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 150, 50 )
+rect_pivot_offset = Vector2( 75, 25 )
+text = "classic"
+
+[node name="Header2" type="CenterContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer"]
+margin_top = 113.0
+margin_right = 576.0
+margin_bottom = 146.0
+size_flags_horizontal = 3
+
+[node name="Players" type="Label" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Header2"]
+margin_left = 221.0
+margin_right = 354.0
+margin_bottom = 33.0
+text = "Players"
+
+[node name="PlayerButtons" type="GridContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer" groups=[
+"buttons",
+]]
+margin_left = 133.0
+margin_top = 161.0
+margin_right = 443.0
+margin_bottom = 211.0
+size_flags_horizontal = 4
+size_flags_vertical = 5
+columns = 2
+script = ExtResource( 14 )
+
+[node name="OnePlayer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/PlayerButtons" instance=ExtResource( 13 )]
+margin_right = 150.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 150, 50 )
+rect_pivot_offset = Vector2( 75, 25 )
+text = "One Player"
+
+[node name="TwoPlayers" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/PlayerButtons" instance=ExtResource( 13 )]
+margin_left = 160.0
+margin_right = 310.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 150, 50 )
+rect_pivot_offset = Vector2( 75, 25 )
+text = "Two Players"
+
+[node name="Header3" type="CenterContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer"]
+editor/display_folded = true
+margin_top = 226.0
+margin_right = 576.0
+margin_bottom = 259.0
+size_flags_horizontal = 3
+
+[node name="AIDifficulty" type="Label" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Header3"]
+margin_left = 187.0
+margin_right = 388.0
+margin_bottom = 33.0
+text = "AI Difficulty"
+
+[node name="AIDifficultyButtons" type="GridContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer" groups=[
+"buttons",
+]]
+editor/display_folded = true
+margin_left = 53.0
+margin_top = 274.0
+margin_right = 523.0
+margin_bottom = 324.0
+size_flags_horizontal = 4
+size_flags_vertical = 5
+theme = ExtResource( 11 )
+columns = 3
+script = ExtResource( 15 )
+
+[node name="Easy" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons" instance=ExtResource( 13 )]
+margin_right = 150.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 150, 50 )
+rect_pivot_offset = Vector2( 75, 25 )
+text = "Easy"
+
+[node name="Normal" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons" instance=ExtResource( 13 )]
+margin_left = 160.0
+margin_right = 310.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 150, 50 )
+rect_pivot_offset = Vector2( 75, 25 )
+text = "Normal"
+
+[node name="Hard" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons" instance=ExtResource( 13 )]
+margin_left = 320.0
+margin_right = 470.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 150, 50 )
+rect_pivot_offset = Vector2( 75, 25 )
+text = "Hard"
+
+[node name="Header4" type="CenterContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer"]
+margin_top = 339.0
+margin_right = 576.0
+margin_bottom = 372.0
+size_flags_horizontal = 3
+
+[node name="GoalsToWin" type="Label" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Header4"]
+margin_left = 191.0
+margin_right = 385.0
+margin_bottom = 33.0
+text = "Goals To Win"
+
+[node name="Goals" type="HBoxContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer" groups=[
+"buttons",
+]]
+margin_top = 387.0
+margin_right = 576.0
+margin_bottom = 437.0
+alignment = 1
+script = ExtResource( 16 )
+
+[node name="GoalNumber" type="SpinBox" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals"]
+margin_left = 99.0
+margin_right = 221.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 100, 35 )
+size_flags_horizontal = 4
+min_value = 1.0
+value = 1.0
+align = 1
+
+[node name="More" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals" instance=ExtResource( 13 )]
+margin_left = 231.0
+margin_right = 306.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 75, 0 )
+text = "More"
+
+[node name="Less" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals" instance=ExtResource( 13 )]
+margin_left = 316.0
+margin_right = 391.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 75, 0 )
+text = "Less"
+
+[node name="Set" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals" instance=ExtResource( 13 )]
+margin_left = 401.0
+margin_right = 476.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 75, 50 )
+rect_pivot_offset = Vector2( 75, 25 )
+text = "Set"
+
+[node name="FinalButtons" type="HBoxContainer" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer" groups=[
+"buttons",
+]]
+margin_top = 452.0
+margin_right = 576.0
+margin_bottom = 502.0
+alignment = 1
+script = ExtResource( 17 )
+
+[node name="Back" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/FinalButtons" instance=ExtResource( 13 )]
+modulate = Color( 0.764706, 0.890196, 1, 1 )
+margin_left = 83.0
+margin_right = 283.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+rect_pivot_offset = Vector2( 100, 25 )
+size_flags_horizontal = 4
+text = "Back (ESC)"
+
+[node name="StartGame" parent="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/FinalButtons" instance=ExtResource( 13 )]
+margin_left = 293.0
+margin_right = 493.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+rect_pivot_offset = Vector2( 100, 25 )
+size_flags_horizontal = 4
+text = "Start Game!"
+
+[node name="Previews" type="VBoxContainer" parent="NinePatchRect/HBoxContainer"]
+editor/display_folded = true
+margin_left = 582.0
+margin_right = 1160.0
+margin_bottom = 510.0
+size_flags_horizontal = 3
+
+[node name="NinePatchRect" type="NinePatchRect" parent="NinePatchRect/HBoxContainer/Previews"]
+margin_right = 578.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 0, 300 )
+texture = SubResource( 3 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="LevelPreview" type="VideoPlayer" parent="NinePatchRect/HBoxContainer/Previews/NinePatchRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+size_flags_vertical = 3
+bus = "VideoPreview"
+script = ExtResource( 18 )
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="NinePatchRect/HBoxContainer/Previews"]
+margin_top = 304.0
+margin_right = 578.0
+margin_bottom = 510.0
+size_flags_vertical = 3
+texture = SubResource( 3 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="LevelDescription" type="RichTextLabel" parent="NinePatchRect/HBoxContainer/Previews/NinePatchRect2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_vertical = 3
+bbcode_enabled = true
+bbcode_text = "Description of the level."
+text = "Description of the level."
+
+[connection signal="level_selected" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/LevelButtons" to="." method="_on_LevelButtons_level_selected"]
+[connection signal="video_selected" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/LevelButtons" to="." method="_on_LevelButtons_video_selected"]
+[connection signal="focus_entered" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/LevelButtons/Classic" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/LevelButtons" method="_on_Classic_focus_entered"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/LevelButtons/Classic" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/LevelButtons" method="_on_Classic_pressed"]
+[connection signal="players_selected" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/PlayerButtons" to="." method="_on_PlayerButtons_players_selected"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/PlayerButtons/OnePlayer" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/PlayerButtons" method="_on_OnePlayer_pressed"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/PlayerButtons/TwoPlayers" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/PlayerButtons" method="_on_TwoPlayers_pressed"]
+[connection signal="difficulty_selected" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons" to="." method="_on_AIDifficultyButtons_difficulty_selected"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons/Easy" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons" method="_on_Easy_pressed"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons/Normal" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons" method="_on_Normal_pressed"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons/Hard" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/AIDifficultyButtons" method="_on_Hard_pressed"]
+[connection signal="goal_selected" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals" to="." method="_on_Goals_goal_selected"]
+[connection signal="value_changed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals/GoalNumber" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals" method="_on_GoalNumber_value_changed"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals/More" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals" method="_on_More_pressed"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals/Less" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals" method="_on_Less_pressed"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals/Set" to="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/Goals" method="_on_Set_pressed"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/FinalButtons/Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="NinePatchRect/HBoxContainer/ButtonPanel/VBoxContainer/FinalButtons/StartGame" to="." method="_on_StartGame_pressed"]
+[connection signal="finished" from="NinePatchRect/HBoxContainer/Previews/NinePatchRect/LevelPreview" to="NinePatchRect/HBoxContainer/Previews/NinePatchRect/LevelPreview" method="_on_LevelPreview_finished"]

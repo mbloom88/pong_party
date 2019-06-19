@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://common_assets/prefabs/victory/themes/victory.tres" type="Theme" id=1]
+[ext_resource path="res://common_assets/prefabs/victory/scripts/victory.gd" type="Script" id=2]
+[ext_resource path="res://common_assets/prefabs/victory/animations/SETUP.tres" type="Animation" id=3]
+[ext_resource path="res://common_assets/prefabs/victory/animations/fade-out.tres" type="Animation" id=4]
+[ext_resource path="res://common_assets/prefabs/victory/animations/victory.tres" type="Animation" id=5]
+
+[node name="Victory" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/SETUP = ExtResource( 3 )
+anims/fade-out = ExtResource( 4 )
+anims/victory = ExtResource( 5 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 230.0
+margin_bottom = -382.0
+
+[node name="Victory" type="Label" parent="CenterContainer"]
+margin_left = 428.0
+margin_right = 852.0
+margin_bottom = 108.0
+grow_horizontal = 2
+rect_pivot_offset = Vector2( 212, 54 )
+text = "Victory!"
+align = 1
+
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 380.0
+margin_bottom = -232.0
+
+[node name="Player" type="Label" parent="CenterContainer2"]
+margin_left = 402.0
+margin_right = 878.0
+margin_bottom = 108.0
+grow_horizontal = 2
+rect_pivot_offset = Vector2( 238, 54 )
+text = "Player 0"
+align = 1
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
